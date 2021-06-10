@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Products.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace Products.Controllers
 {
@@ -15,9 +17,10 @@ namespace Products.Controllers
         private CJShopEntities db = new CJShopEntities();
 
         // GET: Category
-        public ActionResult Index()
+        public ActionResult Index(int ? page)
         {
-            return View(db.Categories.ToList());
+            int pageno = (page ?? 1);
+            return View(db.Categories.ToList().ToPagedList(pageno,5));
         }
 
         // GET: Category/Details/5

@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Products.Models;
+using PagedList;
+using PagedList.Mvc;
 
 namespace Products.Controllers
 {
@@ -14,14 +16,15 @@ namespace Products.Controllers
     {
         private CJShopEntities db = new CJShopEntities();
 
-        // GET: Products
-        public ActionResult Index()
+        // GET: Product
+        public ActionResult Index(int ? page)
         {
             var products = db.Products.Include(p => p.Brand).Include(p => p.Category);
-            return View(products.ToList());
+            int pageNumber = (page ?? 1);
+            return View(products.ToList().ToPagedList(pageNumber, 5));
         }
 
-        // GET: Products/Details/5
+        // GET: Product/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,7 +39,7 @@ namespace Products.Controllers
             return View(product);
         }
 
-        // GET: Products/Create
+        // GET: Product/Create
         public ActionResult Create()
         {
             ViewBag.BrandID = new SelectList(db.Brands, "id", "Brand1");
@@ -44,7 +47,7 @@ namespace Products.Controllers
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Product/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -63,7 +66,7 @@ namespace Products.Controllers
             return View(product);
         }
 
-        // GET: Products/Edit/5
+        // GET: Product/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -80,7 +83,7 @@ namespace Products.Controllers
             return View(product);
         }
 
-        // POST: Products/Edit/5
+        // POST: Product/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -98,7 +101,7 @@ namespace Products.Controllers
             return View(product);
         }
 
-        // GET: Products/Delete/5
+        // GET: Product/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -113,7 +116,7 @@ namespace Products.Controllers
             return View(product);
         }
 
-        // POST: Products/Delete/5
+        // POST: Product/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

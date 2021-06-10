@@ -16,12 +16,17 @@ namespace Products.Models
 
     public partial class Product
     {
+        [Required]
         public int id { get; set; }
+
+        [Required]
         public string ProductName { get; set; }
         public int CategoryID { get; set; }
         public int BrandID { get; set; }
         public string Description { get; set; }
+        [Required]
         public Nullable<int> Quantity { get; set; }
+        [Required]
         public Nullable<decimal> Price { get; set; }
     
         public virtual Brand Brand { get; set; }
